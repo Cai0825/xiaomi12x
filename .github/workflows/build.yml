@@ -257,6 +257,14 @@ jobs:
           cp anykernel/anykernel.sh ak3/anykernel.sh
           # 注意:这里故意【不放 dtb】—— 保留 ROM 原有 dtb/dtbo,只替换 boot 里的 kernel
           cp kernel/out/arch/arm64/boot/Image ak3/Image
+          mkdir -p ak3/modules/system/vendor/lib/modules
+          find kernel/out -type f -name '*.ko' -print
+          while IFS= read -r ko; do
+            cp -f "$ko" "ak3/modules/system/vendor/lib/modules/$(basename "$ko")"
+          done < <(find kernel/out -type f -name '*.ko')
+          test -f ak3/modules/system/vendor/lib/modules/rmnet_perf.ko
+          test -f ak3/modules/system/vendor/lib/modules/rmnet_shs.ko
+          test -f ak3/modules/system/vendor/lib/modules/gspca_main.ko
           ls -la ak3/Image
           ZIP="Droidspaces-psyche-${KERNEL_SHA}.zip"
           ( cd ak3 && zip -r9 "../${ZIP}" . -x '*.git*' > /dev/null )
@@ -283,6 +291,7 @@ jobs:
             - Kernel source: `${{ env.KERNEL_REPO }}` @ `${{ env.KERNEL_REF }}`
             - Resolved commit: `${{ env.KERNEL_SHA }}`
             - Includes Droidspaces non-GKI config + official kernel patches
+            - Includes matching rmnet/gspca kernel modules through the ak3-helper systemless module
             - Replaces the **kernel in the boot image only**; keeps your ROM's dtb, dtbo and vendor_boot
             - Flash with any AnyKernel3-compatible flasher (e.g. KernelFlasher) while rooted
           files: ${{ env.ZIP }}

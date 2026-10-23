@@ -66,6 +66,8 @@ CONFIG_LOCALVERSION="-perf-g59aa6cf45839-dirty"
 
 这用于保证现有 `rmnet_perf.ko` 和 `rmnet_shs.ko` 仍能加载。
 
+内核配置变化后，vendor 中的预编译模块仍可能因 `module_layout` CRC 不同而拒绝加载。因此构建包还会带上同一次编译生成的 `rmnet_perf.ko`、`rmnet_shs.ko` 和 `gspca_main.ko`，通过 AnyKernel3 的 `ak3-helper` Magisk 模块进行 systemless 覆盖。
+
 首次构建刻意不启用：
 
 ```text

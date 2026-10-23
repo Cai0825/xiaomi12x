@@ -7,7 +7,7 @@
 properties() { '
 kernel.string=Droidspaces Kernel for Xiaomi 12X (psyche)
 do.devicecheck=1
-do.modules=0
+do.modules=1
 do.systemless=1
 do.cleanup=1
 do.cleanuponabort=0
