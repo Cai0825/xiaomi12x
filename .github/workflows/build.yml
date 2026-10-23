@@ -167,7 +167,7 @@ jobs:
           make "${MAKE_OPTS[@]}" olddefconfig
 
           EXPECTED_KREL='4.19.325-cip135-st19-perf-g59aa6cf45839-dirty'
-          KREL=$(make "${MAKE_OPTS[@]}" kernelrelease | tail -n1)
+          KREL=$(make "${MAKE_OPTS[@]}" kernelrelease 2>/dev/null | grep -E '^4\.19\.' | tail -n1)
           echo "Kernel release: $KREL"
 
           fail=0
