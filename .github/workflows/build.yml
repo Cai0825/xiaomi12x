@@ -12,6 +12,8 @@ name: Build Droidspaces Kernel (Xiaomi 12X / psyche)
 #     kernel,保留 ROM 原有的 dtb / dtbo,避免 DTS 漂移与 dtbo 已知问题。
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       kernel_repo:
